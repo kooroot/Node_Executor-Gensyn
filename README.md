@@ -18,7 +18,7 @@
 
 1. 스크립트를 다운로드
    ```bash
-   wget https://raw.githubusercontent.com/사용자명/레포지토리/main/gensyn.sh
+   wget https://raw.githubusercontent.com/kooroot/Node_Executor-Gensyn/refs/heads/main/gensyn.sh
    ```
 
 2. 실행 권한을 부여

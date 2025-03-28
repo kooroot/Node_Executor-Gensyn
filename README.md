@@ -1,6 +1,6 @@
 # Gensyn RL-Swarm Node Setup (Linux & Mac)
 
-이 저장소에는 **리눅스(Ubuntu 계열)와 MacOS** 환경에서 **Gensyn RL-Swarm Node** 설치와 설정을 자동화하는 스크립트(`gensyn_installer.sh`)가 포함되어 있습니다.
+이 저장소에는 **리눅스(Ubuntu 계열)와 MacOS** 환경에서 **Gensyn RL-Swarm Node** 설치와 설정을 자동화하는 스크립트(`gensyn.sh`)가 포함되어 있습니다.
 
 아래 스크립트는 다음 과정을 한 번에 처리합니다:
 
@@ -18,17 +18,17 @@
 
 1. 스크립트를 다운로드
    ```bash
-   wget https://raw.githubusercontent.com/사용자명/레포지토리/main/gensyn_installer.sh
+   wget https://raw.githubusercontent.com/사용자명/레포지토리/main/gensyn.sh
    ```
 
 2. 실행 권한을 부여
    ```bash
-   chmod +x gensyn_installer.sh
+   chmod +x gensyn.sh
    ```
 
 3. 스크립트를 실행
    ```bash
-   ./gensyn_installer.sh
+   ./gensyn.sh
    ```
    - 실행 중 설치 방법(로컬 또는 Docker)을 선택하는 옵션이 표시됩니다.
    - 설치 과정에서 `sudo` 암호 입력이 필요할 수 있습니다.
@@ -36,13 +36,13 @@
 4. 또는 옵션을 지정하여 실행
    ```bash
    # 로컬 설치 방식으로 바로 실행
-   ./gensyn_installer.sh --local
+   ./gensyn.sh --local
    
    # Docker 방식으로 바로 실행
-   ./gensyn_installer.sh --docker
+   ./gensyn.sh --docker
    
    # 도움말 표시
-   ./gensyn_installer.sh --help
+   ./gensyn.sh --help
    ```
 
 5. 노드 작동 확인

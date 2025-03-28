@@ -157,11 +157,49 @@ install_local() {
   fi
   
   echo -e "${GREEN}[✓] 로컬 설치 준비 완료${NC}"
-  echo -e "${YELLOW}이제 RL-Swarm을 실행할 수 있습니다. 실행하려면 명령어를 입력하세요:${NC}"
-  echo -e "${BOLD}./run_rl_swarm.sh${NC}"
+  
+  # Screen 세션 생성 및 실행
+  echo -e "\n${YELLOW}노드를 screen 세션에서 실행 준비 중...${NC}"
+  
+  # Screen 설치 확인
+  if ! command -v screen &> /dev/null; then
+    echo -e "${YELLOW}Screen이 설치되어 있지 않습니다. 설치를 진행합니다...${NC}"
+    if [[ "$OS" == "ubuntu" ]]; then
+      sudo apt-get install -y screen
+    elif [[ "$OS" == "macos" ]]; then
+      brew install screen
+    fi
+  fi
+  
+  # 백업 피어 노드 설정 (기본적으로 사용)
+  echo -e "${YELLOW}백업 코디네이터 피어 설정을 적용합니다.${NC}"
+  
+  # Screen 세션에서 실행할 명령 작성
+  SESSION_NAME="gensyn-rl-swarm"
+  CURRENT_DIR=$(pwd)
+  
+  # 실행 커맨드 생성 (백업 피어 사용)
+  COMMAND="cd $CURRENT_DIR && source .venv/bin/activate && export DEFAULT_PEER_MULTI_ADDRS=\"/dns/rl-swarm.gensyn.ai/tcp/38331/p2p/QmQ2gEXoPJg6iMBSUFWGzAabS2VhnzuS782Y637hGjfsRJ\" && ./run_rl_swarm.sh"
+  
+  # MacOS인 경우 메모리 설정 추가
+  if [[ "$OS" == "macos" ]]; then
+    COMMAND="cd $CURRENT_DIR && source .venv/bin/activate && export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 && export DEFAULT_PEER_MULTI_ADDRS=\"/dns/rl-swarm.gensyn.ai/tcp/38331/p2p/QmQ2gEXoPJg6iMBSUFWGzAabS2VhnzuS782Y637hGjfsRJ\" && ./run_rl_swarm.sh"
+  fi
+  
+  # 기존 세션이 있는지 확인하고 종료
+  screen -wipe &>/dev/null
+  screen -S "$SESSION_NAME" -X quit &>/dev/null
+  
+  # 새 screen 세션 시작
+  screen -dmS "$SESSION_NAME" bash -c "$COMMAND"
+  
+  echo -e "${GREEN}[✓] RL-Swarm 노드가 '${SESSION_NAME}' Screen 세션에서 실행 중입니다.${NC}"
+  echo -e "${YELLOW}세션에 접속하려면: ${BOLD}screen -r $SESSION_NAME${NC}"
+  echo -e "${YELLOW}세션에서 빠져나오려면: ${BOLD}Ctrl+A, D${NC}"
+  echo -e "${YELLOW}세션 종료하려면: ${BOLD}Ctrl+A, K${NC} 또는 ${BOLD}screen -S $SESSION_NAME -X quit${NC}"
   
   # 코디네이터 피어 백업 정보 제공
-  echo -e "\n${YELLOW}[정보] 코디네이터 피어에 문제가 발생하면 다음 백업 피어 노드를 사용하세요:${NC}"
+  echo -e "\n${YELLOW}[정보] 백업 피어가 자동으로 설정되었습니다:${NC}"
   echo 'DEFAULT_PEER_MULTI_ADDRS="/dns/rl-swarm.gensyn.ai/tcp/38331/p2p/QmQ2gEXoPJg6iMBSUFWGzAabS2VhnzuS782Y637hGjfsRJ"'
 }
 
@@ -198,13 +236,40 @@ run_docker() {
   
   echo -e "\n${BLUE}${BOLD}[5/5] Gensyn RL-Swarm Docker 실행 중...${NC}"
   
-  if [[ "$HAS_GPU" == true ]]; then
-    echo -e "${YELLOW}GPU 모드로 Docker 컨테이너 실행 중...${NC}"
-    docker run --gpus all --pull=always -it --rm europe-docker.pkg.dev/gensyn-public-b7d9/public/rl-swarm:v0.0.2 ./run_hivemind_docker.sh
-  else
-    echo -e "${YELLOW}CPU 모드로 Docker 컨테이너 실행 중...${NC}"
-    docker run --pull=always -it --rm europe-docker.pkg.dev/gensyn-public-b7d9/public/rl-swarm:v0.0.2 ./run_hivemind_docker.sh
+  # Screen 설치 확인 및 설치
+  echo -e "${YELLOW}Docker 컨테이너를 screen 세션에서 실행합니다...${NC}"
+  
+  if ! command -v screen &> /dev/null; then
+    echo -e "${YELLOW}Screen이 설치되어 있지 않습니다. 설치를 진행합니다...${NC}"
+    if [[ "$OS" == "ubuntu" ]]; then
+      sudo apt-get install -y screen
+    elif [[ "$OS" == "macos" ]]; then
+      brew install screen
+    fi
   fi
+  
+  # 실행할 Docker 명령어 준비
+  SESSION_NAME="gensyn-rl-swarm-docker"
+  
+  if [[ "$HAS_GPU" == true ]]; then
+    DOCKER_CMD="docker run --gpus all --pull=always -it --rm europe-docker.pkg.dev/gensyn-public-b7d9/public/rl-swarm:v0.0.2 ./run_hivemind_docker.sh"
+    echo -e "${YELLOW}GPU 모드로 Docker 컨테이너 준비 중...${NC}"
+  else
+    DOCKER_CMD="docker run --pull=always -it --rm europe-docker.pkg.dev/gensyn-public-b7d9/public/rl-swarm:v0.0.2 ./run_hivemind_docker.sh"
+    echo -e "${YELLOW}CPU 모드로 Docker 컨테이너 준비 중...${NC}"
+  fi
+  
+  # 기존 세션이 있는지 확인하고 종료
+  screen -wipe &>/dev/null
+  screen -S "$SESSION_NAME" -X quit &>/dev/null
+  
+  # 새 screen 세션 시작
+  screen -dmS "$SESSION_NAME" bash -c "$DOCKER_CMD"
+  
+  echo -e "${GREEN}[✓] Docker 컨테이너가 '${SESSION_NAME}' Screen 세션에서 실행 중입니다.${NC}"
+  echo -e "${YELLOW}세션에 접속하려면: ${BOLD}screen -r $SESSION_NAME${NC}"
+  echo -e "${YELLOW}세션에서 빠져나오려면: ${BOLD}Ctrl+A, D${NC}"
+  echo -e "${YELLOW}세션 종료하려면: ${BOLD}Ctrl+A, K${NC} 또는 ${BOLD}screen -S $SESSION_NAME -X quit${NC}"
 }
 
 # 도움말 표시

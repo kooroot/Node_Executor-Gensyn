@@ -333,7 +333,7 @@ main() {
   fi
   
   echo -e "\n${GREEN}${BOLD}Gensyn RL-Swarm 설치 완료!${NC}"
-  echo -e "${YELLOW}추가 도움이 필요하시면 공식 Gensyn 문서를 참조하세요: https://gensyn.ai/docs${NC}"
+  echo -e "${YELLOW}추가 도움이 필요하시면 공식 Gensyn Github을 참조하세요: https://github.com/gensyn-ai/rl-swarm${NC}"
 }
 
 # 스크립트 실행

@@ -277,15 +277,15 @@ show_help() {
   echo -e "${BLUE}${BOLD}Gensyn RL-Swarm 노드 설치 자동화 스크립트 도움말${NC}"
   echo -e "이 스크립트는 Gensyn RL-Swarm 노드를 Ubuntu와 MacOS 환경에서 설치합니다."
   echo -e "\n${BOLD}사용법:${NC}"
-  echo -e "  ./gensyn_installer.sh [옵션]"
+  echo -e "  ./gensyn.sh [옵션]"
   echo -e "\n${BOLD}옵션:${NC}"
   echo -e "  -h, --help     도움말 표시"
   echo -e "  -l, --local    로컬 설치 방식 선택 (Git 클론 후 실행)"
   echo -e "  -d, --docker   Docker 방식 선택 (Docker 컨테이너 실행)"
   echo -e "\n${BOLD}예시:${NC}"
-  echo -e "  ./gensyn_installer.sh         # 대화형 모드로 실행"
-  echo -e "  ./gensyn_installer.sh --local # 로컬 설치 방식으로 바로 실행"
-  echo -e "  ./gensyn_installer.sh --docker # Docker 방식으로 바로 실행"
+  echo -e "  ./gensyn.sh         # 대화형 모드로 실행"
+  echo -e "  ./gensyn.sh --local # 로컬 설치 방식으로 바로 실행"
+  echo -e "  ./gensyn.sh --docker # Docker 방식으로 바로 실행"
 }
 
 # 메인 함수

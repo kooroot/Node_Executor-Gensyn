@@ -121,6 +121,20 @@ Docker 실행 시 다음 GPU 모델을 공식 지원합니다:
 
 ---
 
+## 웹 UI 대시보드 작동 및 노드 동작 확인
+
+웹 UI 대시보드를 실행하기 위해서는 `rl-swarm` 폴더에서
+```
+docker compose up --build -d
+```
+명령을 실행합니다.
+
+웹 대시보드는 로컬 환경에서 `0.0.0.0:8080`에 접속하여 확인합니다.
+만약 Contabo를 사용중이라면 `https://VPS-IP:8080`에 접속하여 확인합니다.
+![image](https://github.com/user-attachments/assets/97a556e3-7f3e-462b-9a71-2cbf18ae921a)
+
+---
+
 ## 문제 해결
 
 - **Docker 권한 문제**: Ubuntu에서 Docker 설치 후 사용자 권한 문제가 발생하면 로그아웃 후 다시 로그인하세요.

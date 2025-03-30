@@ -125,6 +125,7 @@ Docker 실행 시 다음 GPU 모델을 공식 지원합니다:
 
 웹 UI 대시보드를 실행하기 위해서는 `rl-swarm` 폴더에서
 ```
+cd rl-swarm
 docker compose up --build -d
 ```
 명령을 실행합니다.

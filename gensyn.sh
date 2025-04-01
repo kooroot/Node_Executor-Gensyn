@@ -179,11 +179,12 @@ install_local() {
   CURRENT_DIR=$(pwd)
   
   # 실행 커맨드 생성 (백업 피어 사용)
-  COMMAND="cd $CURRENT_DIR && source .venv/bin/activate && export DEFAULT_PEER_MULTI_ADDRS=\"/dns/rl-swarm.gensyn.ai/tcp/38331/p2p/QmQ2gEXoPJg6iMBSUFWGzAabS2VhnzuS782Y637hGjfsRJ\" && ./run_rl_swarm.sh"
+  COMMAND="cd $CURRENT_DIR && source .venv/bin/activate && ./run_rl_swarm.sh"
+  #COMMAND="cd $CURRENT_DIR && source .venv/bin/activate && export DEFAULT_PEER_MULTI_ADDRS=\"/dns/rl-swarm.gensyn.ai/tcp/38331/p2p/QmQ2gEXoPJg6iMBSUFWGzAabS2VhnzuS782Y637hGjfsRJ\" && ./run_rl_swarm.sh"
   
   # MacOS인 경우 메모리 설정 추가
   if [[ "$OS" == "macos" ]]; then
-    COMMAND="cd $CURRENT_DIR && source .venv/bin/activate && export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 && export DEFAULT_PEER_MULTI_ADDRS=\"/dns/rl-swarm.gensyn.ai/tcp/38331/p2p/QmQ2gEXoPJg6iMBSUFWGzAabS2VhnzuS782Y637hGjfsRJ\" && ./run_rl_swarm.sh"
+    COMMAND="cd $CURRENT_DIR && source .venv/bin/activate && export PYTORCH_MPS_HIGH_WATERMARK_RATIO=0.0 && ./run_rl_swarm.sh"
   fi
   
   # 기존 세션이 있는지 확인하고 종료
@@ -199,8 +200,8 @@ install_local() {
   echo -e "${YELLOW}세션 종료하려면: ${BOLD}Ctrl+A, K${NC} 또는 ${BOLD}screen -S $SESSION_NAME -X quit${NC}"
   
   # 코디네이터 피어 백업 정보 제공
-  echo -e "\n${YELLOW}[정보] 백업 피어가 자동으로 설정되었습니다:${NC}"
-  echo 'DEFAULT_PEER_MULTI_ADDRS="/dns/rl-swarm.gensyn.ai/tcp/38331/p2p/QmQ2gEXoPJg6iMBSUFWGzAabS2VhnzuS782Y637hGjfsRJ"'
+  #echo -e "\n${YELLOW}[정보] 백업 피어가 자동으로 설정되었습니다:${NC}"
+  #echo 'DEFAULT_PEER_MULTI_ADDRS="/dns/rl-swarm.gensyn.ai/tcp/38331/p2p/QmQ2gEXoPJg6iMBSUFWGzAabS2VhnzuS782Y637hGjfsRJ"'
 }
 
 # Docker 실행 함수
